@@ -44,8 +44,26 @@
       <v-toolbar-title>Todo App</v-toolbar-title>
     </v-toolbar>
     <v-content>
-      <v-container fill-height text-md-center text-sm-center text-xs-center>
-        <v-layout fill-height justify-center align-center>
+      <v-container fill-height grid-list-md>
+        <v-layout v-if="todos.length" fill-height justify-center>
+          <v-flex md4 v-for="(todo,i) in todos" :key="i">
+            <v-card :color="todo.color">
+              <v-card-text>
+                <p class="font-weight-light" :class="{ 'display-3': !todo.description, 'headline': todo.description }">{{ todo.title }}</p>
+                <p class="body-1">{{ todo.description }}</p>
+              </v-card-text>
+              <v-card-actions>
+                <v-tooltip bottom>
+                  <v-btn slot="activator" icon @click="removeTodo(i)">
+                    <v-icon>delete</v-icon>
+                  </v-btn>
+                  <span>Remove</span>
+                </v-tooltip>
+              </v-card-actions>
+            </v-card>
+          </v-flex>
+        </v-layout>
+        <v-layout v-else fill-height justify-center align-start>
           <v-flex md6>
             <h1 class="headline font-weight-light">You have no todos, why don't you create a few</h1>
           </v-flex>
@@ -59,17 +77,59 @@
       color="yellow"
       dark
       fixed
+      @click="show_create_todo = !show_create_todo"
     >
       <v-icon color="black">add</v-icon>
     </v-btn>
+    <v-dialog v-model="show_create_todo" max-width="400px">
+      <v-card>
+        <v-card-text>
+          <v-text-field solo flat placeholder="Title" v-model="todo.title" required></v-text-field>
+          <v-textarea auto-grow solo flat placeholder="Description (optional)" v-model="todo.description"></v-textarea>
+          <v-subheader class="pl-1">Color</v-subheader>
+          <v-btn icon :color="color" @click="todo.color = color" small v-for="(color,i) in colors" :key="i">
+            <v-icon small v-if="todo.color === color">done</v-icon>
+          </v-btn>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn flat small @click="saveTodo()" :disabled="!todo.title">save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-app>
 </template>
 
 <script>
+import { cloneDeep } from "lodash";
+
 export default {
   data() {
     return {
-      mini: true
+      todo: {
+        title: null,
+        description: null,
+        color: null
+      },
+      todos: [],
+      colors: ["red","blue","blue lighten-2","purple","yellow","orange","green","grey"],
+      mini: true,
+      show_create_todo: false
+    }
+  },
+  methods: {
+    resetTodo() {
+      this.show_create_todo = false;
+      this.todo.title = null;
+      this.todo.description = null;
+      this.todo.color = null;
+    },
+    saveTodo() {
+      this.todos.push(cloneDeep(this.todo));
+      this.resetTodo();
+    },
+    removeTodo(pos) {
+      this.todos.splice(pos,1);
     }
   }
 }
