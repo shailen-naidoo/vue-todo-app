@@ -70,17 +70,21 @@
         </v-layout>
       </v-container>
     </v-content>
-    <v-btn
-      fab
-      bottom
-      right
-      color="yellow"
-      dark
-      fixed
-      @click="show_create_todo = !show_create_todo"
-    >
-      <v-icon color="black">add</v-icon>
-    </v-btn>
+    <v-tooltip left>
+      <v-btn
+        slot="activator"
+        fab
+        bottom
+        right
+        color="yellow"
+        dark
+        fixed
+        @click="show_create_todo = !show_create_todo"
+      >
+        <v-icon color="black">add</v-icon>
+      </v-btn>
+      <span>Create todo</span>
+    </v-tooltip>
     <v-dialog v-model="show_create_todo" max-width="400px">
       <v-card>
         <v-card-text>
