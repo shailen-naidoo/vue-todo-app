@@ -91,10 +91,8 @@
 
 <script>
 import { cloneDeep } from "lodash";
-import UIState from "./mixins/ui-state.js";
 
 export default {
-  mixins: [UIState],
   data() {
     return {
       todo: {
@@ -102,7 +100,10 @@ export default {
         description: null,
         color: null
       },
-      todos: []
+      todos: [],
+      colors: ["red","blue","blue lighten-2","purple","yellow","orange","green","grey"],
+      mini: true,
+      show_create_todo: false
     };
   },
   methods: {
