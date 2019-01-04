@@ -2,33 +2,13 @@
   <v-app>
     <v-navigation-drawer app :mini-variant="mini" permanent hide-overlay class="yellow">
       <v-list>
-        <v-list-tile>
+        <v-list-tile v-for="({ icon, tooltip },i) in navigation_list_icons" :key="i">
           <v-list-tile-action>
             <v-tooltip right>
               <v-btn slot="activator" icon>
-                <v-icon>dashboard</v-icon>
+                <v-icon>{{ icon }}</v-icon>
               </v-btn>
-              <span>Dashboard</span>
-            </v-tooltip>
-          </v-list-tile-action>
-        </v-list-tile>
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-tooltip right>
-              <v-btn slot="activator" icon>
-                <v-icon>done</v-icon>
-              </v-btn>
-              <span>Completed</span>
-            </v-tooltip>
-          </v-list-tile-action>
-        </v-list-tile>
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-tooltip right>
-              <v-btn slot="activator" icon>
-                <v-icon>access_time</v-icon>
-              </v-btn>
-              <span>To be completed</span>
+              <span>{{ tooltip }}</span>
             </v-tooltip>
           </v-list-tile-action>
         </v-list-tile>
