@@ -56,9 +56,10 @@
           <v-text-field solo flat placeholder="Title" v-model="todo.title"></v-text-field>
           <v-textarea auto-grow solo flat placeholder="Description (optional)" v-model="todo.description"></v-textarea>
           <v-subheader class="pl-1">Color</v-subheader>
-          <v-btn icon small v-for="(color,i) in colors" @click="todo.color = color" :key="i" :color="color">
+          <!-- <v-btn icon small v-for="(color,i) in colors" @click="todo.color = color" :key="i" :color="color">
             <v-icon small v-if="todo.color === color">done</v-icon>
-          </v-btn>
+          </v-btn> -->
+          <color-picker></color-picker>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -72,6 +73,8 @@
 <script>
 import { cloneDeep } from "lodash";
 import UIState from "./mixins/ui-state.js";
+
+import ColorPicker from "./components/ColorPicker.vue";
 
 export default {
   mixins: [UIState],
@@ -99,6 +102,9 @@ export default {
     removeTodo(pos) {
       this.todos.splice(pos, 1);
     }
+  },
+  components: {
+    ColorPicker
   }
 };
 </script>
